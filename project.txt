@@ -1,0 +1,11 @@
+top = set*;
+    set = blank* ALNUM+ blank* equal blank* open blank* ...elements blank* close blank*
+    	blank = ' ' or '\t' or '\n';
+	ALNUM = 'A' - 'Z';
+	equal = '=';
+	open = '{';
+	...elements = blank* element blank* ',' blank* ...elements or
+		      blank* element blank*;
+            element = alnum+;
+	        alnum = 'A' - 'Z';
+	close = '}';
