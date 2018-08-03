@@ -1,11 +1,47 @@
+Пример описания грамматики на моем языке грамматики
+
 top = set*;
-    set = blank* ALNUM+ blank* equal blank* open blank* ...elements blank* close blank*
-    	blank = ' ' or '\t' or '\n';
+    set = blank* ALNUM+ blank* equal blank* open blank* ...elements blank* close blank*;
+    	blank = ' ' or '\t' or '\n' or empty;
+	empty = '';
 	ALNUM = 'A' - 'Z';
 	equal = '=';
 	open = '{';
-	...elements = blank* element blank* ',' blank* ...elements or
-		      blank* element blank*;
+	elements = blank* element blank* ',' blank* elements or
+		      blank* element blank* 	       		   or
+		      blank*;
             element = alnum+;
 	        alnum = 'A' - 'Z';
 	close = '}';
+
+
+Теперь попробуем описать язык грамматики
+
+Alphabet = {ALNUM, alnum, blank, ?, +, *, =, ;}
+
+состояния:
+	top - начальное
+	    on alnum -> rule_name 
+	    on blank .
+	    on eof -> end
+	    on else .
+	rulename - чтение имени грамматического правила
+	    on alnum .
+	    on blank -> waiting_equal 
+	    on equal -> pattern
+	    on eof   -> end
+	    on else .
+	waiting_equal - ожидание связывающего знака равенства
+	    on equal -> pattern
+	    on eof -> end
+	    on blank .
+	    on else .
+        pattern       - считывание шаблона правила
+	    on alnum -> identifier
+	    on quote -> literal
+	    on blank .
+	    on dotpunct -> popstate()
+	    on eof   -> end
+	    on else  .
+	identifier
+	    
